@@ -1,7 +1,15 @@
 import { Ingredient } from "../models/ingredient";
+import { Http, Response } from "@angular/http";
+import { Injectable } from "@angular/core";
+import { Token } from "@angular/compiler";
+import { AuthService } from "./auth";
+import 'rxjs/Rx';
 
+@Injectable()
 export class ShoppingListService {
     private ingredients: Ingredient[] = [];
+
+    constructor(private http:Http, private authService:AuthService){}
 
     addItem(name: string, amount: number, id: number) {
         this.ingredients.push(new Ingredient(name, amount, id));
@@ -27,5 +35,22 @@ export class ShoppingListService {
         a=+b;
         
         this.ingredients.splice(a, 1);
+    }
+    storeList(token:Token){
+        const userId=this.authService.getActiveUser().uid;
+        return this.http.put('https://ionapp3.firebaseio.com/'+userId+'/shpooing-list.json?auth='+token
+        ,this.ingredients)
+        .map((response:Response)=>{
+            return response.json();
+        });
+    }
+    fetchList(token:Token){
+        const userId=this.authService.getActiveUser().uid;
+        return this.http.get('https://ionapp3.firebaseio.com/'+userId+'/shpooing-list.json?auth='+token
+        ).map((response:Response)=>{
+            return response.json();
+        }).do((data)=>{
+            this.ingredients=data;
+        });
     }
 }

@@ -18,18 +18,20 @@
       <ion-textarea formControlName="description"></ion-textarea>
     </ion-item>
     <ion-item>
-        <ion-label floating>Difficulty</ion-label>
-       <ion-select formControlName="difficulty">
-         <ion-option *ngFor="let option of selectOption" [value]="option">{{option}}</ion-option>
-       </ion-select>
+      <ion-label floating>Difficulty</ion-label>
+      <ion-select formControlName="difficulty">
+        <ion-option *ngFor="let option of selectOption" [value]="option">{{option}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <button type="button" clear block ion-button (click)="mngIngr()">Manage Ingredients</button>
+    <ion-list formArrayName="ingredients">
+      <ion-item  *ngFor="let igCntrl of recipeForm.get('ingredients').controls;let i=index">
+
+        <ion-label floating>Name</ion-label>
+        <ion-input type="text" [formControlName]="i"></ion-input>
+
       </ion-item>
-      <button type="button" clear block ion-button (click)="mngIngr()">Manage Ingredients</button>
-      <ion-list formArrayName="ingredients">
-        <ion-item *ngFor="let igCntrl of recipeForm.get('ingredients').controls; let i=index">
-          <ion-label floating>Name</ion-label>
-          <ion-input type="text" [formControlName]="igCntrl.name"></ion-input>
-        </ion-item>
-      </ion-list>
-      <button type="submit" ion-button block [disabled]="!recipeForm.valid">{{mode}} Recipe</button>
+    </ion-list>
+    <button type="submit" ion-button block [disabled]="!recipeForm.valid">{{mode}} Recipe</button>
   </form>
 </ion-content>

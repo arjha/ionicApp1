@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import { EditRecipePage } from '../edit-recipe/edit-recipe';
 import { Recipe } from '../../models/recipe';
 import { RecipiesService } from '../../services/recipes';
